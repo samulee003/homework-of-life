@@ -1,0 +1,10 @@
+{
+  "name": "Homework for Life",
+  "short_name": "HfL",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9"
+}
+
+
