@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { storage } from '../lib/storage';
 
-type Story = { id: string; date: string; mood: number; text: string };
+type Story = { id: string; date: string; mood: number; text: string; tags?: string[] };
 const STORAGE_KEY = 'stories';
 
 export default function Record() {
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [mood, setMood] = useState(3);
   const [text, setText] = useState('');
+  const [tags, setTags] = useState('');
 
   const stories = useMemo<Story[]>(() => storage.get<Story[]>(STORAGE_KEY) || [], []);
   const [items, setItems] = useState<Story[]>(stories);
@@ -17,9 +18,10 @@ export default function Record() {
   }, [items]);
 
   function addStory() {
-    const s: Story = { id: crypto.randomUUID(), date, mood, text: text.trim() };
+    const s: Story = { id: crypto.randomUUID(), date, mood, text: text.trim(), tags: tags.split(',').map(t => t.trim()).filter(Boolean) };
     setItems(prev => [s, ...prev]);
     setText('');
+    setTags('');
   }
 
   function remove(id: string) {
@@ -40,6 +42,10 @@ export default function Record() {
           <input type="range" min={1} max={5} value={mood} onChange={e => setMood(Number(e.target.value))} />
         </label>
         <label>
+          <div>Tags (comma separated)</div>
+          <input type="text" placeholder="work, family" value={tags} onChange={e => setTags(e.target.value)} />
+        </label>
+        <label>
           <div>Text</div>
           <textarea rows={4} value={text} onChange={e => setText(e.target.value)} />
         </label>
@@ -54,6 +60,9 @@ export default function Record() {
               <strong>{s.date}</strong>
               <span>mood {s.mood}</span>
             </div>
+            {s.tags && s.tags.length > 0 && (
+              <div style={{ marginTop: 6, fontSize: 12, color: '#555' }}>#{s.tags.join(' #')}</div>
+            )}
             <div style={{ whiteSpace: 'pre-wrap', marginTop: 8 }}>{s.text}</div>
             <div style={{ textAlign: 'right', marginTop: 8 }}>
               <button onClick={() => remove(s.id)}>Delete</button>

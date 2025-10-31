@@ -6,6 +6,20 @@
     <meta name="theme-color" content="#0ea5e9" />
     <link rel="icon" href="/favicon.ico" />
     <title>Homework for Life</title>
+    <style>
+      :root { --c:#0ea5e9; --g:#eee; --t:#111; }
+      * { box-sizing: border-box; }
+      body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial;
+             color:var(--t); }
+      nav a { padding:6px 8px; border-radius:6px; }
+      nav a[aria-current] { color: var(--c); font-weight:700; }
+      input, textarea, button { font: inherit; padding:8px; }
+      input[type="range"]{ width: 240px; }
+      button { background:var(--c); color:#fff; border:0; border-radius:6px; }
+      button[disabled]{ opacity:.5; }
+      h1{ font-size:28px; }
+      h2{ font-size:20px; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
